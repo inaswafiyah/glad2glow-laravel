@@ -11,13 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-       Schema::create('products', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
         $table->id();
         $table->string('name');
-         $table->string('image')->nullable();
+        $table->string('image')->nullable();
         $table->text('description')->nullable();
         $table->integer('price');
         $table->integer('stock')->default(0);
+        $table->foreignId('kategori_id')
+      ->constrained(table: 'category_product')
+      ->onDelete('cascade');
+
         $table->timestamps();
     });
     }
