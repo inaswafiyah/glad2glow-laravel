@@ -12,8 +12,13 @@ class ProductController extends Controller
      */
      public function index()
     {
-        $products = Product::all();
-        return response()->json($products);
+        // $products = Product::all();
+        // return response()->json($products);
+
+        {
+        $products = Product::with('category')->paginate(5); // pagination
+        return view('products.index', compact('products'));
+    }
     }
 
     /**
