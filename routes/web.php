@@ -1,29 +1,22 @@
 <?php
 
-use App\Http\Controllers\PageController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Route::get('/',[HomeController::class, 'index']);
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Produk
-Route::get('/products', [ProductController::class, 'index']);
-Route::get('/products/{id}', [ProductController::class, 'show']);
-Route::post('/products', [ProductController::class, 'store']);
-Route::put('/products/{id}', [ProductController::class, 'update']);
-Route::delete('/products/{id}', [ProductController::class, 'destroy']);
-
-// Halaman
-Route::get('/page/{page}', [PageController::class, 'show']);
-Route::get('/about', [PageController::class, 'about']);
-Route::get('/contact', [PageController::class, 'contact']);
-
-// Halaman keranjang
-Route::get('/cart', function () {
-    return view('cart');
-});
-Route::get('/checkout', function () {
-    return 'ini route checkout';
-});
+require __DIR__.'/auth.php';

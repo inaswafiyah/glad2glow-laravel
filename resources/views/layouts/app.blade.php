@@ -9,9 +9,9 @@
     {{-- Navbar --}}
     @include('components.navbar')
 
-    <div class="container">
+    <main>
         @yield('content')
-    </div>
+    </main>
 
     {{-- Footer --}}
     @include('components.footer')
