@@ -17,14 +17,15 @@
                     <span class="cart-count">0</span>
                 </a>
             </li>
-            <li><a href="{{ route('login') }}" class="login-btn">LOGIN NOW</a></li>
-            @if (Route::has('login'))
+             @if (Route::has('login'))
                 @auth
                     <li>
                         <a href="{{ url('/dashboard') }}" class="dashboard-link">Dashboard</a>
                     </li>
                 @endauth
             @endif
+            <li><a href="{{ route('login') }}" class="login-btn">LOGIN NOW</a></li>
+           
         </ul>
     </nav>
     <div class="hamburger">
