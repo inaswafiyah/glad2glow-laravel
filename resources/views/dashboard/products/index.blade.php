@@ -6,7 +6,7 @@
     </x-slot>
      <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <button class="btn btn-primary">+ Tambah Produk</button>
+      <a href="{{ route('products.tambah') }}" class="btn btn-primary">+ Tambah Produk</a>
     </div>
 
     <div class="card shadow-sm">
@@ -32,7 +32,7 @@
               <td>100.000</td>
               <td><img src="{{ asset('landing/assets/images1/handbody.png') }}" alt="" style="width: 50px"></td>
               <td>
-                <button class="btn btn-sm btn-warning">Edit</button>
+                <a href="{{ route('products.edit') }}" class="btn btn-sm btn-warning">Edit</a>
                 <button class="btn btn-sm btn-danger">Hapus</button>
               </td>
             </tr>

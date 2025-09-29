@@ -6,7 +6,7 @@
     </x-slot>
      <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <button class="btn btn-primary">+ Tambah Kategori</button>
+      <a href="{{ route('category-products-tambah') }}" class="btn btn-primary">+ Tambah Kategori</a>
     </div>
 
     <div class="card shadow-sm">
@@ -26,7 +26,7 @@
               <td>Skincare</td>
               <td>15</td>
               <td>
-                <button class="btn btn-sm btn-warning">Edit</button>
+                <a href="{{ route('category-products-edit') }}" class="btn btn-sm btn-warning">Edit</a>
                 <button class="btn btn-sm btn-danger">Hapus</button>
               </td>
             </tr>
@@ -35,7 +35,7 @@
               <td>Makeup</td>
               <td>20</td>
               <td>
-                <button class="btn btn-sm btn-warning">Edit</button>
+                <a href="{{ route('category-products-edit') }}" class="btn btn-sm btn-warning">Edit</a>
                 <button class="btn btn-sm btn-danger">Hapus</button>
               </td>
             </tr>
@@ -44,7 +44,7 @@
               <td>Hair Care</td>
               <td>10</td>
               <td>
-                <button class="btn btn-sm btn-warning">Edit</button>
+                <a href="{{ route('category-products-edit') }}" class="btn btn-sm btn-warning">Edit</a>
                 <button class="btn btn-sm btn-danger">Hapus</button>
               </td>
             </tr>
