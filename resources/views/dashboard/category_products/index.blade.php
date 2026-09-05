@@ -20,34 +20,18 @@
               <th>Aksi</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="bg-white">
+            @foreach ($categories as $category)
             <tr>
-              <td>1</td>
-              <td>Skincare</td>
-              <td>15</td>
+              <td>{{ $category->id }}</td>
+              <td>{{ $category->name }}</td>
+              <td>{{ $category->products_count }}</td>
               <td>
                 <a href="{{ route('category-products-edit') }}" class="btn btn-sm btn-warning">Edit</a>
                 <button class="btn btn-sm btn-danger">Hapus</button>
               </td>
             </tr>
-            <tr>
-              <td>2</td>
-              <td>Makeup</td>
-              <td>20</td>
-              <td>
-                <a href="{{ route('category-products-edit') }}" class="btn btn-sm btn-warning">Edit</a>
-                <button class="btn btn-sm btn-danger">Hapus</button>
-              </td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Hair Care</td>
-              <td>10</td>
-              <td>
-                <a href="{{ route('category-products-edit') }}" class="btn btn-sm btn-warning">Edit</a>
-                <button class="btn btn-sm btn-danger">Hapus</button>
-              </td>
-            </tr>
+            @endforeach
           </tbody>
         </table>
       </div>

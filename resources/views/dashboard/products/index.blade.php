@@ -23,19 +23,21 @@
               <th>Aksi</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="bg-white">
+            @foreach ($products as $product)
             <tr>
-              <td>1</td>
-              <td>Hand Body</td>
-              <td>Hand Body Lotion</td>
-              <td>100</td>
-              <td>100.000</td>
-              <td><img src="{{ asset('landing/assets/images1/handbody.png') }}" alt="" style="width: 50px"></td>
+              <td>{{ $product->id }}</td>
+              <td>{{ $product->name }}</td>
+              <td>{{ $product->description }}</td>
+              <td>{{ $product->stock }}</td>
+              <td>Rp {{ number_format($product->price, 0, ',', '.') }}</td>
+              <td><img src="{{ $product->image }}" alt="" style="width: 50px"></td>
               <td>
-                <a href="{{ route('products.edit') }}" class="btn btn-sm btn-warning">Edit</a>
+                <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-warning">Edit</a>
                 <button class="btn btn-sm btn-danger">Hapus</button>
               </td>
             </tr>
+            @endforeach
             <tr>
               <td>2</td>
               <td>Serum</td>
