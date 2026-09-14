@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -22,7 +23,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $categories = ProductCategory::all();
+
+        return view('dashboard.products.tambah', compact('categories'));
     }
 
     /**
@@ -30,18 +33,31 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $product = Product::create([
-            'name' => $request->name,
-            'image' => $request->image,
-            'description' => $request->description,
-            'price' => $request->price,
-            'stock' => $request->stock,
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string', 'max:255'],
+            'price' => ['required', 'numeric'],
+            'kategori_id' => ['required', 'exists:category_product,id'],
+            'stock' => ['required', 'numeric'],
+            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048']
         ]);
 
-        return response()->json([
-            'message' => 'Produk berhasil ditambahkan',
-            'data' => $product
-        ]);
+        $product = new Product();
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->stock = $request->stock;
+        $product->kategori_id = $request->kategori_id;
+
+        if ($request->hasFile('image')) {
+            $product->image = $request->file('image')->store('products', 'public');
+        }
+
+        $product->save();
+
+        return redirect()
+            ->route('product.index')
+            ->with('success', 'Product created successfully.');
     }
 
     /**

@@ -5,8 +5,23 @@
         </h2>
     </x-slot>
      <div class="container mt-5">
+       @if (session('success'))
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        @endif
+        @if ($errors->any())
+          <div class="alert alert-danger">
+            <ul>
+              @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+              @endforeach
+            </ul>
+          </div>
+        @endif
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <a href="{{ route('products.tambah') }}" class="btn btn-primary">+ Tambah Produk</a>
+      <a href="{{ route('product.create') }}" class="btn btn-primary">+ Tambah Produk</a>
     </div>
 
     <div class="card shadow-sm">
@@ -31,7 +46,15 @@
               <td>{{ $product->description }}</td>
               <td>{{ $product->stock }}</td>
               <td>Rp {{ number_format($product->price, 0, ',', '.') }}</td>
-              <td><img src="{{ $product->image }}" alt="" style="width: 50px"></td>
+              <td>
+                @if ($product->image)
+                  <img src="{{ filter_var($product->image, FILTER_VALIDATE_URL) ? $product->image : asset('storage/' . $product->image) }}"
+                       alt="{{ $product->name }}"
+                       style="width: 50px; height: 50px; object-fit: cover;">
+                @else
+                  <span class="text-muted">Tidak ada gambar</span>
+                @endif
+              </td>
               <td>
                 <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-warning">Edit</a>
                 <button class="btn btn-sm btn-danger">Hapus</button>
