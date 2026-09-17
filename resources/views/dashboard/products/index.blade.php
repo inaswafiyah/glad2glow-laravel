@@ -56,35 +56,15 @@
                 @endif
               </td>
               <td>
-                <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                <button class="btn btn-sm btn-danger">Hapus</button>
+                <a href="{{ route('product.edit', $product->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                <form action="{{ route('product.destroy', $product->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Hapus produk ini?')">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                </form>
               </td>
             </tr>
             @endforeach
-            <tr>
-              <td>2</td>
-              <td>Serum</td>
-              <td>Exfoliating Serum</td>
-              <td>50</td>
-              <td>150.000</td>
-              <td><img src="{{ asset('landing/assets/images1/serum.png') }}" alt="" style="width: 50px"></td>
-              <td>
-                <button class="btn btn-sm btn-warning">Edit</button>
-                <button class="btn btn-sm btn-danger">Hapus</button>
-              </td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Cushion</td>
-              <td>Cushion Wajah</td>
-              <td>10</td>
-              <td>200.000</td>
-              <td><img src="{{ asset('landing/assets/images1/cushion.png') }}" alt="" style="width: 50px"></td>
-              <td>
-                <button class="btn btn-sm btn-warning">Edit</button>
-                <button class="btn btn-sm btn-danger">Hapus</button>
-              </td>
-            </tr>
           </tbody>
         </table>
       </div>

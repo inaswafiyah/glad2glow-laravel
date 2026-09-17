@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 
@@ -34,17 +35,17 @@ class ProductCategoryController extends Controller
             'name' => 'required|string|max:255',
         ]);
         $name_check = ProductCategory::where('name', $request->name)->exists();
-        if($name_check){
+        if ($name_check) {
             return back()
-            ->withInput()
-            ->withErrors(['Category name already exists.']);
-        } else{
+                ->withInput()
+                ->withErrors(['Category name already exists.']);
+        } else {
             $category = new ProductCategory();
             $category->name = $request->name;
             $category->save();
             return redirect()
-            ->route('product-category.index')
-            ->with('success', 'Category created successfully.');
+                ->route('product-category.index')
+                ->with('success', 'Category created successfully.');
         }
     }
 
@@ -61,7 +62,9 @@ class ProductCategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $category = ProductCategory::findOrFail($id);
+
+        return view('dashboard.category_products.edit', compact('category'));
     }
 
     /**
@@ -69,7 +72,25 @@ class ProductCategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $category_name_check = ProductCategory::where('name', $request->name)
+            ->exists();
+
+        if ($category_name_check) {
+            return back()
+            ->withInput()
+            ->withErrors(['Category name already exists.']);
+        } else {
+            $category = ProductCategory::findOrFail($id);
+            $category->name = $request->name;
+            $category->save();
+            return redirect()
+                ->route('product-category.index')
+                ->with('success', 'Category updated successfully.');
+        }
     }
 
     /**
@@ -77,6 +98,18 @@ class ProductCategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $category = ProductCategory::findOrFail($id);
+
+        $product_check = product::where('kategori_id', $category->id)->exists();
+
+        if ($product_check) {
+            product::where('kategori_id', $category->id)->delete();
+        }
+
+        $category->delete();
+
+        return redirect()
+            ->route('product-category.index')
+            ->with('success', 'Category deleted successfully.');
     }
 }

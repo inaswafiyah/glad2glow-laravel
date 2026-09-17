@@ -6,14 +6,17 @@
     </x-slot>
      <div class="card shadow-sm">
           <div class="card-body">
-            <form>
+            <form action="{{route ('product-category.update', $category->id)}}" method="POST">
+              @method('PUT')
+              @csrf
               <div class="mb-3">
-                <label for="namaKategori" class="form-label">Nama Kategori</label>
-                <input type="text" class="form-control" id="namaKategori" placeholder="Masukkan nama kategori" required>
+                <label for="name" class="form-label">Nama Kategori</label>
+                <input type="text" class="form-control" value="{{$category->name}}" id="name" 
+                name="name" placeholder="Masukkan nama kategori" required>
               </div>
               <div class="d-flex justify-content-between">
-                <a href="kategori.html" class="btn btn-secondary">Kembali</a>
-                <button type="submit" class="btn btn-success">Simpan</button>
+                <a href="{{ route('product-category.edit', $category->id) }}" class="btn btn-secondary">Kembali</a>
+                <button type="submit" class="btn btn-primary">Update Kategori</button>
               </div>
             </form>
           </div>

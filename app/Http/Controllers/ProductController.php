@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -43,6 +44,7 @@ class ProductController extends Controller
         ]);
 
         $product = new Product();
+
         $product->name = $request->name;
         $product->description = $request->description;
         $product->price = $request->price;
@@ -73,9 +75,12 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit(string $id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $categories = ProductCategory::all();
+
+        return view('dashboard.products.edit', compact('product', 'categories'));
     }
 
     /**
@@ -84,12 +89,38 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = Product::findOrFail($id);
-        $product->update($request->all());
 
-        return response()->json([
-            'message' => 'Produk berhasil diupdate',
-            'data' => $product
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string', 'max:255'],
+            'price' => ['required', 'numeric'],
+            'kategori_id' => ['required', 'exists:category_product,id'],
+            'stock' => ['required', 'numeric'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048']
         ]);
+
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->stock = $request->stock;
+        $product->kategori_id = $request->kategori_id;
+
+        if ($request->hasFile('image')) {
+
+            // Hapus gambar lama jika ada
+            if ($product->image && Storage::disk('public')->exists($product->image)) {
+                Storage::disk('public')->delete($product->image);
+            }
+
+            // Simpan gambar baru
+            $product->image = $request->file('image')->store('products', 'public');
+        }
+
+        $product->save();
+
+        return redirect()
+            ->route('product.index')
+            ->with('success', 'Product updated successfully.');
     }
 
     /**
@@ -98,10 +129,16 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
+
+        // Hapus gambar produk jika ada
+        if ($product->image && Storage::disk('public')->exists($product->image)) {
+            Storage::disk('public')->delete($product->image);
+        }
+
         $product->delete();
 
-        return response()->json([
-            'message' => 'Produk berhasil dihapus'
-        ]);
+        return redirect()
+            ->route('product.index')
+            ->with('success', 'Product deleted successfully.');
     }
 }
