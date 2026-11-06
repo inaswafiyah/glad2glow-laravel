@@ -1,9 +1,9 @@
 <header class="navbar">
     <div class="logo">
-        <h1>
+        <h1> <a href="{{ url ('/')}}"></a>
             <span class="letter">G</span><span class="letter">L</span><span class="letter letter-a">A</span><span class="letter letter-d">D</span><span class="letter">2</span><span class="letter">G</span><span class="letter">L</span><span class="letter">O</span><span class="letter">W</span><span class="dot">.</span>
         </h1>
-        <p>BEAUTY EXPERT</p>
+        <p> <a href="{{ url ('/')}}"></a> BEAUTY EXPERT</p>
     </div>
     <nav class="nav-links">
         <ul>

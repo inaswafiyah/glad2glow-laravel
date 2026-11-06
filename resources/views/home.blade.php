@@ -67,12 +67,17 @@
     <div class="product-grid">
         @foreach ($products as $product)
             <div class="product-card">
-                <img src="{{ $product->image }}" alt="{{ $product->name }}">
+                @if ($product->image)
+                    <img src="{{ filter_var($product->image, FILTER_VALIDATE_URL) ? $product->image : asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+                @else
+                    <p>Tidak ada gambar</p>
+                @endif
                 <h3>{{ $product->name }}</h3>
                 <p>{{ $product->description }}</p>
                 <span class="price">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
                 <p><strong>Stok:</strong> {{ $product->stock }}</p>
                 <p><strong>Kategori:</strong> {{ $product->category->name ?? '-' }}</p>
+                <a href="{{ route ('product.click', $product->id)}}" target="_blank" class="btn btn-primary">Beli Sekarang</a>
             </div>
         @endforeach
     </div>
